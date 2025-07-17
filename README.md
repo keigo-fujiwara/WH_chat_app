@@ -85,7 +85,7 @@ git push -u origin main
 |項目|入力例|
 |---|---|
 |Name|my-django-app（好きな名前）|
-|Runtime|Python|
+|Runtime|Python3|
 |Build Command|pip install -r requirements.txt && python manage.py migrate && python manage.py loaddata data.json|
 |Start Command|gunicorn chat_app.wsgi|
 

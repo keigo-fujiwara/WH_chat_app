@@ -14,7 +14,7 @@
         <a href="{% url 'email_change' %}" class="button">メールアドレス変更</a>
         <a href="{% url 'password_change' %}" class="button">パスワード変更</a>
         <form action="{% url 'logout' %}" method="post">
-            {% comment %} {% csrf_token %} {% endcomment %}
+            {% csrf_token %}
             <button type="submit" class="button">ログアウト</button>
         </form>
     </div>

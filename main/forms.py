@@ -9,16 +9,8 @@ class SignUpForm(UserCreationForm):
         model = User
         fields = ("username", "email",)
 
-class LoginForm(forms.Form):
-    username = forms.CharField(
-        label="ユーザー名",
-        max_length=150,
-        widget=forms.TextInput(attrs={'class': 'login-form__input'})
-    )
-    password = forms.CharField(
-        label="パスワード",
-        widget=forms.PasswordInput(attrs={'class': 'login-form__input'})
-    )
+class LoginForm(AuthenticationForm):
+    pass
 
 class TalkForm(forms.ModelForm):
     class Meta:

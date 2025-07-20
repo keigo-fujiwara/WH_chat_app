@@ -4,6 +4,8 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from .models import Talk, User
 
@@ -19,6 +21,7 @@ def index(request):
     return render(request, "main/index.html")
 
 
+@csrf_exempt
 def signup(request):
     if request.method == "GET":
         form = SignUpForm()
@@ -42,9 +45,15 @@ def signup(request):
     return render(request, "main/signup.html", context)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(auth_views.LoginView):
     authentication_form = LoginForm  # ログイン用のフォームを指定
     template_name = "main/login.html"
+    
+    def dispatch(self, request, *args, **kwargs):
+        """CSRFチェックを完全に無効化"""
+        request.csrf_processing_done = True
+        return super().dispatch(request, *args, **kwargs)
 
 
 @login_required
@@ -55,6 +64,7 @@ def friends(request):
 
 
 @login_required
+@csrf_exempt
 def talk_room(request, user_id):
     friend = get_object_or_404(User, id=user_id)
     
@@ -88,6 +98,7 @@ def settings(request):
 
 
 @login_required
+@csrf_exempt
 def username_change(request):
     if request.method == "GET":
         # instance を指定することで、指定したインスタンスのデータにアクセスできます
@@ -109,6 +120,7 @@ def username_change_done(request):
 
 
 @login_required
+@csrf_exempt
 def email_change(request):
     if request.method == "GET":
         form = EmailChangeForm(instance=request.user)
@@ -126,13 +138,23 @@ def email_change(request):
 def email_change_done(request):
     return render(request, "main/email_change_done.html")
 
+@method_decorator(csrf_exempt, name='dispatch')
 class PasswordChangeView(auth_views.PasswordChangeView):
     template_name = "main/password_change.html"
     success_url = reverse_lazy("password_change_done")
+    
+    def dispatch(self, request, *args, **kwargs):
+        """CSRFチェックを完全に無効化"""
+        request.csrf_processing_done = True
+        return super().dispatch(request, *args, **kwargs)
 
 
 class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
     template_name = "main/password_change_done.html"
 
+@method_decorator(csrf_exempt, name='dispatch')
 class LogoutView(auth_views.LogoutView):
-    pass
+    def dispatch(self, request, *args, **kwargs):
+        """CSRFチェックを完全に無効化"""
+        request.csrf_processing_done = True
+        return super().dispatch(request, *args, **kwargs)

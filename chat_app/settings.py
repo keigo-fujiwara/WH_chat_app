@@ -38,10 +38,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',  # CSRF対策を無効化
+    'django.middleware.csrf.CsrfViewMiddleware',  # CSRF対策を無効化
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',  # クリックジャッキング対策を無効化
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',  # クリックジャッキング対策を無効化
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
@@ -137,12 +137,3 @@ LOGOUT_REDIRECT_URL = "index"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
-# セキュリティ設定を無効化（実験用）
-SECURE_BROWSER_XSS_FILTER = False
-SECURE_CONTENT_TYPE_NOSNIFF = False
-SECURE_HSTS_INCLUDE_SUBDOMAINS = False
-SECURE_HSTS_PRELOAD = False
-SECURE_HSTS_SECONDS = 0
-SECURE_SSL_REDIRECT = False
-SECURE_PROXY_SSL_HEADER = None

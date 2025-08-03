@@ -10,11 +10,7 @@ class SignUpForm(UserCreationForm):
         fields = ("username", "email",)
 
 class LoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # CSRFトークンを無効化
-        if 'csrfmiddlewaretoken' in self.fields:
-            del self.fields['csrfmiddlewaretoken']
+    pass
 
 class TalkForm(forms.ModelForm):
     class Meta:
